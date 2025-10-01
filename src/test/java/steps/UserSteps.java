@@ -1,31 +1,51 @@
+// src/test/java/steps/UserSteps.java
 package steps;
 
-import io.cucumber.java.en.*;
+import io.cucumber.java.pt.*;
 import io.restassured.response.Response;
-import static io.restassured.RestAssured.*;
+import io.restassured.RestAssured;
+import java.util.List;
 import static org.junit.Assert.*;
 
 public class UserSteps {
     private Response response;
 
-    @Given("que a API está disponível")
-    public void apiDisponivel() {
-        baseURI = "https://jsonplaceholder.typicode.com";
+    @Dado("que a API está disponível")
+    public void queAApiEstaDisponivel() {
+        RestAssured.baseURI = "https://jsonplaceholder.typicode.com";
     }
 
-    @When("eu faço uma requisição GET para {string}")
-    public void requisicaoGET(String endpoint) {
-        response = get(endpoint);
+    @Quando("eu faço uma requisição GET para {string}")
+    public void euFacoUmaRequisicaoGETPara(String endpoint) {
+        response = RestAssured.get(endpoint);
     }
 
-    @Then("o status da resposta deve ser {int}")
-    public void verificarStatus(int statusCode) {
+    @Então("o status da resposta deve ser {int}")
+    public void oStatusDaRespostaDeveSer(int statusCode) {
         assertEquals(statusCode, response.getStatusCode());
     }
 
-    @Then("o nome do usuário deve ser {string}")
-    public void verificarNome(String nomeEsperado) {
+    @E("o nome do usuário deve ser {string}")
+    public void oNomeDoUsuarioDeveSer(String nomeEsperado) {
         String nome = response.jsonPath().getString("name");
         assertEquals(nomeEsperado, nome);
+    }
+
+    @E("a resposta deve conter pelo menos {int} comentários")
+    public void aRespostaDeveConterPeloMenosXComentarios(int quantidadeMinima) {
+        List<?> comentarios = response.jsonPath().getList("$");
+        assertTrue(comentarios.size() >= quantidadeMinima);
+    }
+
+    @E("o título do álbum deve ser {string}")
+    public void oTituloDoAlbumDeveSer(String tituloEsperado) {
+        String titulo = response.jsonPath().getString("title");
+        assertEquals(tituloEsperado, titulo);
+    }
+
+    @E("a resposta deve conter pelo menos {int} álbum")
+    public void aRespostaDeveConterPeloMenosXAlbuns(int quantidadeMinima) {
+        List<?> albuns = response.jsonPath().getList("$");
+        assertTrue(albuns.size() >= quantidadeMinima);
     }
 }

@@ -1,7 +1,7 @@
 # 🚀 mikeRestAssured
 
 Testes automatizados de API REST com **Java**, **RestAssured** e **Cucumber**  
-Simples, didático e pronto para impressionar em entrevistas!
+Simples, didático !
 
 ---
 

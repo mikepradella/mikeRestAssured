@@ -5,14 +5,16 @@ import io.cucumber.java.pt.*;
 import io.restassured.response.Response;
 import io.restassured.RestAssured;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class UserSteps {
     private Response response;
 
     @Dado("que a API está disponível")
     public void queAApiEstaDisponivel() {
-        RestAssured.baseURI = "https://jsonplaceholder.typicode.com";
+        System.out.println("api disponivel");
     }
 
     @Quando("eu faço uma requisição GET para {string}")

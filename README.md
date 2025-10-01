@@ -29,3 +29,19 @@ Simples, didático !
    ```bash
    git clone https://github.com/mikepradella/mikeRestAssured.git
    cd mikeRestAssured
+<hr></hr>
+Cenário: Buscar usuário por ID
+  Dado que a API está disponível
+  Quando eu faço uma requisição GET para "/users/1"
+  Então o status da resposta deve ser 200
+  E o nome do usuário deve ser "Leanne Graham"
+<hr></hr>
+💡 Diferenciais
+Estrutura enxuta e fácil de entender
+Pronto para ser expandido com novos cenários
+Ideal para demonstrar conhecimento em testes de API
+<hr></hr>
+👨‍💻 Autor
+Mike Pradella
+GitHub
+<hr></hr>

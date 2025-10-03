@@ -10,7 +10,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class UserSteps {
-    private Response response;
+
+    private final TestContext context;
+
+    public UserSteps(TestContext context) {
+        this.context = context; // 👈 agora o mesmo context é injetado
+    }
 
     @Dado("que a API está disponível")
     public void queAApiEstaDisponivel() {
@@ -19,35 +24,36 @@ public class UserSteps {
 
     @Quando("eu faço uma requisição GET para {string}")
     public void euFacoUmaRequisicaoGETPara(String endpoint) {
-        response = RestAssured.get(endpoint);
+       Response response = RestAssured.get(endpoint);
+         context.setResponse(response);
     }
 
     @Então("o status da resposta deve ser {int}")
     public void oStatusDaRespostaDeveSer(int statusCode) {
-        assertEquals(statusCode, response.getStatusCode());
+        assertEquals(statusCode, context.getResponse().getStatusCode());
     }
 
     @E("o nome do usuário deve ser {string}")
     public void oNomeDoUsuarioDeveSer(String nomeEsperado) {
-        String nome = response.jsonPath().getString("name");
+        String nome = context.getResponse().jsonPath().getString("name");
         assertEquals(nomeEsperado, nome);
     }
 
     @E("a resposta deve conter pelo menos {int} comentários")
     public void aRespostaDeveConterPeloMenosXComentarios(int quantidadeMinima) {
-        List<?> comentarios = response.jsonPath().getList("$");
+        List<?> comentarios = context.getResponse().jsonPath().getList("$");
         assertTrue(comentarios.size() >= quantidadeMinima);
     }
 
     @E("o título do álbum deve ser {string}")
     public void oTituloDoAlbumDeveSer(String tituloEsperado) {
-        String titulo = response.jsonPath().getString("title");
+        String titulo = context.getResponse().jsonPath().getString("title");
         assertEquals(tituloEsperado, titulo);
     }
 
     @E("a resposta deve conter pelo menos {int} álbum")
     public void aRespostaDeveConterPeloMenosXAlbuns(int quantidadeMinima) {
-        List<?> albuns = response.jsonPath().getList("$");
+        List<?> albuns = context.getResponse().jsonPath().getList("$");
         assertTrue(albuns.size() >= quantidadeMinima);
     }
 }
